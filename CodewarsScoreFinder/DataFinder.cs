@@ -27,7 +27,7 @@ namespace CodewarsScoreFinder
 
         public void PopulateScores(List<CodewarsUser> users)
         {
-            WebClient client = new WebClient();
+            var client = new WebClient();
 
             foreach (var user in users)
             {
@@ -44,7 +44,7 @@ namespace CodewarsScoreFinder
 
                 if (str != null)
                 {
-                    JObject response = JObject.Parse(str);
+                    var response = JObject.Parse(str);
                     int.TryParse(response.GetValue("honor").ToString(), out int score);
                     user.Score = score;
                 }

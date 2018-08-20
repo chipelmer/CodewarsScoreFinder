@@ -19,12 +19,12 @@ namespace CodewarsScoreFinder
             if (users == null)
                 return new List<CodewarsUser>() { new CodewarsUser("N/A") { Name = "None", Score = 0 } };
 
-            List<CodewarsUser> userList = new List<CodewarsUser>();
+            var userList = new List<CodewarsUser>();
 
-            foreach (string user in users)
+            foreach (var user in users)
             {
-                string[] data = user.Split(',');
-                CodewarsUser newUser = new CodewarsUser(data[0]);
+                var data = user.Split(',');
+                var newUser = new CodewarsUser(data[0]);
                 newUser.Name = data[1].Trim();
                 userList.Add(newUser);
             }

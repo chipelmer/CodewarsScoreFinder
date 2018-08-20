@@ -8,14 +8,14 @@ namespace CodewarsScoreFinder
     {
         static void Main(string[] args)
         {
-            DataFinder dataFinder = new DataFinder();
+            var dataFinder = new DataFinder();
 
             Console.WriteLine("Getting users...");
-            string[] usernames = dataFinder.GetUsernames("Usernames.csv");
+            var usernames = dataFinder.GetUsernames("Usernames.csv");
             if (usernames == null)
                 Environment.Exit(-1);
 
-            List<CodewarsUser> codewarsUsers = CodewarsUser.ParseUsers(usernames);
+            var codewarsUsers = CodewarsUser.ParseUsers(usernames);
             if (codewarsUsers == null || codewarsUsers.Count < 1)
                 Environment.Exit(-1);
 
