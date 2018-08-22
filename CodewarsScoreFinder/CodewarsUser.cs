@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace CodewarsScoreFinder
 {
@@ -13,6 +14,7 @@ namespace CodewarsScoreFinder
         public string Name { get; set; }
         public int Score { get; set; }
 
+        public static int UsersWithScoresCount(List<CodewarsUser> codewarsUsers) => codewarsUsers.Count(x => x.Score > 0);
 
         public static List<CodewarsUser> ParseUsers(string[] users)
         {
