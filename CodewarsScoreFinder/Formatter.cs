@@ -12,27 +12,27 @@ namespace CodewarsScoreFinder
         private static int getMaxScoreCharacterCount(List<CodewarsUser> codewarsUsers)
             => codewarsUsers.Max(x => x.Score.ToString().Length);
 
-        public static string GetTextFormattedForDisplay(List<CodewarsUser> codewarsUsers)
+        public static string GetTextFormattedForDisplay(CodewarsUsersGroup users)
         {
-            codewarsUsers = codewarsUsers.OrderByDescending(x => x.Score).ToList();
+            users.SortUsersByScore();
 
             var usernameText = "Username:";
             var nameText = "Name:";
             var scoreText = "Score:";
 
             // using Linq
-            var maxUsername = Math.Max(codewarsUsers.Max(x => x.Username.Length), usernameText.Length);
+            var maxUsername = Math.Max(users.Users.Max(x => x.Username.Length), usernameText.Length);
 
             // using methods
-            var maxName = Math.Max(getMaxNameCharacterCount(codewarsUsers), nameText.Length);
-            var maxScore = Math.Max(getMaxScoreCharacterCount(codewarsUsers), scoreText.Length);
+            var maxName = Math.Max(getMaxNameCharacterCount(users.Users), nameText.Length);
+            var maxScore = Math.Max(getMaxScoreCharacterCount(users.Users), scoreText.Length);
             var extraSpace = " | ";
 
             var formattedString = extraSpace + usernameText + new string(' ', maxUsername - usernameText.Length) + extraSpace
                 + nameText + new string(' ', maxName - nameText.Length) + extraSpace
                 + scoreText + new string(' ', maxScore - scoreText.Length) + extraSpace
                 + "\n";
-            foreach (var user in codewarsUsers)
+            foreach (var user in users.Users)
             {
                 formattedString += extraSpace;
                 formattedString += user.Username + new string(' ', maxUsername - user.Username.Length) + extraSpace;

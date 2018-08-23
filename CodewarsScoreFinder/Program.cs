@@ -13,14 +13,14 @@ namespace CodewarsScoreFinder
             if (usernames == null)
                 Environment.Exit(-1);
 
-            var codewarsUsers = CodewarsUser.ParseUsers(usernames);
-            if (codewarsUsers == null || codewarsUsers.Count < 1)
+            var users = new CodewarsUsersGroup(usernames);
+            if (users == null || users.TotalCount < 1)
                 Environment.Exit(-1);
 
-            new System.Threading.Thread(() => dataFinder.PopulateScores(codewarsUsers)).Start();
-            UX.DisplayLoadingWindow(dataFinder, codewarsUsers, UX.LoadingOptions.Bar);
+            new System.Threading.Thread(() => dataFinder.PopulateScores(users)).Start();
+            UX.DisplayLoadingWindow(dataFinder, users, UX.LoadingOptions.Bar);
 
-            UX.DisplayResults(codewarsUsers);
+            UX.DisplayResults(users);
             UX.DisplayFinalOptions();
         }
     }

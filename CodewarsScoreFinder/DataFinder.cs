@@ -25,11 +25,11 @@ namespace CodewarsScoreFinder
             return usernames;
         }
 
-        public void PopulateScores(List<CodewarsUser> users)
+        public void PopulateScores(CodewarsUsersGroup users)
         {
             var client = new WebClient();
 
-            foreach (var user in users)
+            foreach (var user in users.Users)
             {
                 string str = null;
                 try

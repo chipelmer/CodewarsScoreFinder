@@ -24,7 +24,7 @@ namespace CodewarsScoreFinder
 
         public enum LoadingOptions { Bar, Dots }
 
-        public static void DisplayLoadingWindow(DataFinder dataFinder, List<CodewarsUser> codewarsUsers, LoadingOptions loadingOption)
+        public static void DisplayLoadingWindow(DataFinder dataFinder, CodewarsUsersGroup users, LoadingOptions loadingOption)
         {
             Console.WriteLine("Getting data from Codewars...");
 
@@ -36,14 +36,11 @@ namespace CodewarsScoreFinder
             var maxDots = 8;
             var dotCount = 0;
 
-            var scoresPopulated = 0;
             Console.CursorVisible = false;
-            while (scoresPopulated < codewarsUsers.Count)
+            while (users.PopulatedScoresCount < users.TotalCount)
             {
-                scoresPopulated = CodewarsUser.UsersWithScoresCount(codewarsUsers);
-
                 Console.CursorLeft = 0;
-                Console.Write(scoresPopulated + "/" + codewarsUsers.Count);
+                Console.Write(users.PopulatedScoresCount + "/" + users.TotalCount);
 
                 if(loadingOption == LoadingOptions.Bar)
                 {
@@ -69,7 +66,7 @@ namespace CodewarsScoreFinder
             }
 
             Console.CursorLeft = 0;
-            Console.Write(scoresPopulated + "/" + codewarsUsers.Count);
+            Console.Write(users.PopulatedScoresCount + "/" + users.TotalCount);
 
             PlayDoneSound();
             Console.ForegroundColor = ConsoleColor.Green;
@@ -77,7 +74,7 @@ namespace CodewarsScoreFinder
             Thread.Sleep(1500);
         }
 
-        public static void DisplayResults(List<CodewarsUser> codewarsUsers)
+        public static void DisplayResults(CodewarsUsersGroup users)
         {
             for (int i = 0; i < 10; i++)
             {
@@ -86,7 +83,7 @@ namespace CodewarsScoreFinder
                 else
                     SetColors(ConsoleColor.Black, ConsoleColor.White);
 
-                Console.WriteLine(Formatter.GetTextFormattedForDisplay(codewarsUsers));
+                Console.WriteLine(Formatter.GetTextFormattedForDisplay(users));
                 Thread.Sleep(100);
             }
         }
