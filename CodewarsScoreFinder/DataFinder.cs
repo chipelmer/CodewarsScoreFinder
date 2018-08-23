@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace CodewarsScoreFinder
 {
-    class DataFinder
+    public class DataFinder
     {
         public string[] GetUsernames(string file)
         {
