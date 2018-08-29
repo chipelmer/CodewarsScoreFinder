@@ -31,23 +31,28 @@ namespace CodewarsScoreFinder
 
             foreach (var user in users.Users)
             {
-                string str = null;
-                try
-                {
-                    str = client.DownloadString("https://www.codewars.com/api/v1/users/" + user.Username);
-                }
-                catch
-                {
-                    Console.WriteLine("Error getting a user's data from Codewars.");
-                    Thread.Sleep(250);
-                }
+                populateScore(user);
+            }
+        }
 
-                if (str != null)
-                {
-                    var response = JObject.Parse(str);
-                    int.TryParse(response.GetValue("honor").ToString(), out int score);
-                    user.Score = score;
-                }
+        private async void populateScore(CodewarsUser user)
+        {
+            var client = new WebClient();
+            string str = null;
+            try
+            {
+                str = await client.DownloadStringTaskAsync("https://www.codewars.com/api/v1/users/" + user.Username);
+            }
+            catch
+            {
+                Console.WriteLine("Error getting a user's data from Codewars.");
+            }
+
+            if (str != null)
+            {
+                var response = JObject.Parse(str);
+                int.TryParse(response.GetValue("honor").ToString(), out int score);
+                user.Score = score;
             }
         }
     }
