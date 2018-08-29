@@ -3,7 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Net;
 using Newtonsoft.Json.Linq;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace CodewarsScoreFinder
 {
@@ -35,7 +35,7 @@ namespace CodewarsScoreFinder
             }
         }
 
-        private async void populateScore(CodewarsUser user)
+        private async Task populateScore(CodewarsUser user)
         {
             var client = new WebClient();
             string str = null;
@@ -45,7 +45,7 @@ namespace CodewarsScoreFinder
             }
             catch
             {
-                Console.WriteLine("Error getting a user's data from Codewars.");
+                Console.WriteLine("Error getting a user's data from Codewars: " + user.Username);
             }
 
             if (str != null)
