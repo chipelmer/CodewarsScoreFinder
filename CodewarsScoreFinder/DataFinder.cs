@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
 using System.Net;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
@@ -27,8 +26,6 @@ namespace CodewarsScoreFinder
 
         public void PopulateScores(CodewarsUsersGroup users)
         {
-            var client = new WebClient();
-
             foreach (var user in users.Users)
             {
                 populateScore(user);
