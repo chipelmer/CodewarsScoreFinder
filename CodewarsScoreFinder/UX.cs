@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace CodewarsScoreFinder
 {
@@ -21,16 +22,17 @@ namespace CodewarsScoreFinder
             Console.Clear();
         }
 
-        public enum LoadingOptions { Bar, Dots }
+        public enum LoadingOptions { CyclingBar, SideToSideBar, Dots }
 
         public static void DisplayLoadingWindow(DataFinder dataFinder, CodewarsUsersGroup users, LoadingOptions loadingOption)
         {
             Console.WriteLine("Getting data from Codewars...");
 
-            var barLocation = 0;
-            var maxBarSpace = 30;
+            var maxBarSpace = 22;
             var barLenth = 4;
-            var direction = 1;
+
+            var cyclingBar = new CyclingBar(barLenth, maxBarSpace);
+            var sideToSideBar = new SideToSideBar(barLenth, maxBarSpace);
 
             var maxDots = 8;
             var dotCount = 0;
@@ -40,26 +42,16 @@ namespace CodewarsScoreFinder
             {
                 Console.CursorLeft = 0;
                 Console.Write(users.PopulatedScoresCount + "/" + users.TotalCount);
+                Console.CursorLeft += 2;
 
-                if(loadingOption == LoadingOptions.Bar)
-                {
-                    Thread.Sleep(20);
-                    Console.CursorLeft += 2;
-                    Console.BackgroundColor = default(ConsoleColor);
-                    Console.Write(new string(' ', barLocation));
-                    Console.BackgroundColor = ConsoleColor.Green;
-                    Console.Write(new string(' ', barLenth));
-                    Console.BackgroundColor = default(ConsoleColor);
-                    Console.Write(new string(' ', maxBarSpace - barLenth - barLocation));
-                    barLocation += direction;
-                    if (barLocation + barLenth >= maxBarSpace || (barLocation <= 0)) direction *= -1;
-                }
-                else if(loadingOption == LoadingOptions.Dots)
+                if (loadingOption == LoadingOptions.CyclingBar)
+                    cyclingBar.MoveBar();
+                else if (loadingOption == LoadingOptions.SideToSideBar)
+                    sideToSideBar.MoveBar();
+                else if (loadingOption == LoadingOptions.Dots)
                 {
                     Thread.Sleep(200);
-                    Console.CursorLeft += 2;
                     Console.Write(new string('.', dotCount) + new string(' ', maxDots - dotCount));
-
                     dotCount = dotCount > maxDots - 1 ? 0 : dotCount + 1;
                 }
             }
@@ -75,7 +67,7 @@ namespace CodewarsScoreFinder
 
         public static void DisplayResults(CodewarsUsersGroup users)
         {
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
                 if (i % 2 == 0)
                     SetColors(ConsoleColor.DarkCyan, ConsoleColor.White);
@@ -97,6 +89,78 @@ namespace CodewarsScoreFinder
                 Console.ResetColor();
                 Console.Clear();
                 Program.Main(new string[0]);
+            }
+        }
+
+        private class CyclingBar
+        {
+            public CyclingBar(int greenWidth, int totalWidth, int speedDelayInMilliseconds = 20)
+            {
+                this.speedDelayInMilliseconds = speedDelayInMilliseconds;
+                for (var i = 0; i < totalWidth; i++)
+                    values.Add(i < greenWidth);
+            }
+
+            private List<bool> values = new List<bool>();
+            private int speedDelayInMilliseconds;
+
+            public void MoveBar()
+            {
+                Thread.Sleep(speedDelayInMilliseconds);
+
+                values.Insert(0, values[values.Count - 1]);
+                values.RemoveAt(values.Count - 1);
+
+                foreach (var nextValue in values)
+                {
+                    Console.BackgroundColor = nextValue ? ConsoleColor.Green : default(ConsoleColor);
+                    Console.Write(' ');
+                }
+
+                Console.BackgroundColor = default(ConsoleColor);
+            }
+        }
+
+        private class SideToSideBar
+        {
+            public SideToSideBar(int greenWidth, int totalWidth, int speedDelayInMilliseconds = 20)
+            {
+                this.speedDelayInMilliseconds = speedDelayInMilliseconds;
+
+                for (var i = 0; i < totalWidth; i++)
+                    values.Add(i < greenWidth);
+            }
+
+            private List<bool> values = new List<bool>();
+            private int direction = 1;
+            private int speedDelayInMilliseconds;
+
+            public void MoveBar()
+            {
+                Thread.Sleep(speedDelayInMilliseconds);
+
+                if (direction > 0)
+                {
+                    values.Insert(0, values[values.Count - 1]);
+                    values.RemoveAt(values.Count - 1);
+                    if (values[values.Count - 1])
+                        direction *= -1;
+                }
+                else
+                {
+                    values.Add(values[0]);
+                    values.RemoveAt(0);
+                    if (values[0])
+                        direction *= -1;
+                }
+
+                foreach (var value in values)
+                {
+                    Console.BackgroundColor = value ? ConsoleColor.Green : default(ConsoleColor);
+                    Console.Write(' ');
+                }
+
+                Console.BackgroundColor = default(ConsoleColor);
             }
         }
     }
