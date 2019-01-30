@@ -74,7 +74,9 @@ namespace CodewarsScoreFinder
                 else
                     SetColors(ConsoleColor.Black, ConsoleColor.White);
 
-                Console.WriteLine(Formatter.GetTextFormattedForDisplay(users));
+                string results = Formatter.GetTextFormattedForDisplay(users);
+                Console.WindowHeight = Math.Min(Console.LargestWindowHeight, results.Split("\n").Length + 2);
+                Console.WriteLine(results);
                 Thread.Sleep(100);
             }
         }

@@ -6,42 +6,90 @@ namespace CodewarsScoreFinder
 {
     public static class Formatter
     {
-        private static int getMaxNameCharacterCount(List<CodewarsUser> codewarsUsers)
-            => codewarsUsers.Max(x => x.Name.Length);
-
-        private static int getMaxScoreCharacterCount(List<CodewarsUser> codewarsUsers)
-            => codewarsUsers.Max(x => x.Score.ToString().Length);
-
         public static string GetTextFormattedForDisplay(CodewarsUsersGroup users)
         {
             users.SortUsersByScore();
 
-            var usernameText = "Username:";
-            var nameText = "Name:";
-            var scoreText = "Score:";
+            string[,] dataTable = new string[users.TotalCount + 1, 3]; // plus 1 for header, 3 for Username-Name-Score
 
-            // using Linq
-            var maxUsername = Math.Max(users.Users.Max(x => x.Username.Length), usernameText.Length);
+            dataTable[0, 0] = "Username";
+            dataTable[0, 1] = "Name";
+            dataTable[0, 2] = "Score";
 
-            // using methods
-            var maxName = Math.Max(getMaxNameCharacterCount(users.Users), nameText.Length);
-            var maxScore = Math.Max(getMaxScoreCharacterCount(users.Users), scoreText.Length);
-            var extraSpace = " | ";
-
-            var formattedString = extraSpace + usernameText + new string(' ', maxUsername - usernameText.Length) + extraSpace
-                + nameText + new string(' ', maxName - nameText.Length) + extraSpace
-                + scoreText + new string(' ', maxScore - scoreText.Length) + extraSpace
-                + "\n";
-            foreach (var user in users.Users)
+            for (int user = 0; user < users.Users.Count; user++)
             {
-                formattedString += extraSpace;
-                formattedString += user.Username + new string(' ', maxUsername - user.Username.Length) + extraSpace;
-                formattedString += user.Name + new string(' ', maxName - user.Name.Length) + extraSpace;
-                formattedString += user.Score.ToString() + new string(' ', maxScore - user.Score.ToString().Length) + extraSpace;
-                formattedString += "\n";
+                dataTable[user + 1, 0] = users.Users[user].Username;
+                dataTable[user + 1, 1] = users.Users[user].Name;
+                dataTable[user + 1, 2] = users.Users[user].Score.ToString(); ;
             }
 
-            return formattedString;
+            return getTableFromArray(dataTable);
+        }
+
+        private static string getTableFromArray(string[,] arrayForTable)
+        {
+            var verticalLine = '\u2502';
+            var verticalLineRightCrosspiece = '\u251C';
+            var verticalLineLeftCrosspiece = '\u2524';
+            var horizontalLine = '\u2500';
+            var horizontalLineTopCrosspiece = '\u2534';
+            var horizontalLineBottomCrosspiece = '\u252c';
+            var topLeftCorner = '\u250c';
+            var topRightCorner = '\u2510';
+            var bottomRightCorner = '\u2518';
+            var bottomLeftCorner = '\u2514';
+            var doubleCrosspiece = '\u253c';
+
+            standardizeLengthOfAllCellsInEachColumn(ref arrayForTable);
+
+            var table = getHorizontalBorder(arrayForTable, topLeftCorner, horizontalLine, horizontalLineBottomCrosspiece, topRightCorner) + "\n";
+
+            for (int row = 0; row < arrayForTable.GetLength(0); row++)
+            {
+                if (row == 1)
+                {
+                    table += getHorizontalBorder(arrayForTable, verticalLineRightCrosspiece, horizontalLine, doubleCrosspiece, verticalLineLeftCrosspiece) + "\n";
+                }
+
+                table += getTableRow(arrayForTable, row, verticalLine) + "\n";
+            }
+
+            table += getHorizontalBorder(arrayForTable, bottomLeftCorner, horizontalLine, horizontalLineTopCrosspiece, bottomRightCorner) + "\n";
+
+            return table;
+        }
+
+        private static void standardizeLengthOfAllCellsInEachColumn(ref string[,] table)
+        {
+            for (int col = 0; col < table.GetLength(1); col++)
+            {
+                var maxWidth = 0;
+                for (int row = 0; row < table.GetLength(0); row++)
+                    if (table[row, col].Length > maxWidth)
+                        maxWidth = table[row, col].Length;
+
+                for (int row = 0; row < table.GetLength(0); row++)
+                    table[row, col] += new string(' ', maxWidth - table[row, col].Length);
+            }
+        }
+
+        private static string getTableRow(string[,] table, int row, char cellDivider)
+        {
+            var rowString = "";
+            for (int col = 0; col < table.GetLength(1); col++)
+                rowString += cellDivider + table[row, col];
+            
+            rowString += cellDivider;
+            return rowString;
+        }
+
+        private static string getHorizontalBorder(string[,] table, char left, char middle, char middleDivider, char right)
+        {
+            var border = left.ToString();
+            for (int col = 0; col < table.GetLength(1); col++)
+                border += new string(middle, table[0, col].Length) + middleDivider;
+            
+            return border.Remove(border.Length - 1) + right;
         }
     }
 }
