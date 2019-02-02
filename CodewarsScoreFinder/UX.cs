@@ -6,8 +6,7 @@ namespace CodewarsScoreFinder
 {
     public static class UX
     {
-
-        public static void SetColors(ConsoleColor backgroundColor, ConsoleColor foregroundColor)
+        public static void SetConsoleColors(ConsoleColor backgroundColor, ConsoleColor foregroundColor)
         {
             Console.BackgroundColor = backgroundColor;
             Console.ForegroundColor = foregroundColor;
@@ -61,9 +60,9 @@ namespace CodewarsScoreFinder
             for (var i = 0; i < 10; i++)
             {
                 if (i % 2 == 0)
-                    SetColors(ConsoleColor.DarkCyan, ConsoleColor.White);
+                    SetConsoleColors(ConsoleColor.DarkCyan, ConsoleColor.White);
                 else
-                    SetColors(ConsoleColor.Black, ConsoleColor.White);
+                    SetConsoleColors(ConsoleColor.Black, ConsoleColor.White);
 
                 string results = Formatter.GetTextFormattedForDisplay(users);
                 Console.WindowHeight = Math.Min(Console.LargestWindowHeight, results.Split("\n").Length + 2);

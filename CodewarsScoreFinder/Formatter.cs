@@ -54,7 +54,6 @@ namespace CodewarsScoreFinder
 
             return table;
         }
-
         private static void standardizeLengthOfAllCellsInEachColumn(ref string[,] table)
         {
             for (int col = 0; col < table.GetLength(1); col++)
@@ -68,7 +67,6 @@ namespace CodewarsScoreFinder
                     table[row, col] += new string(' ', maxWidth - table[row, col].Length);
             }
         }
-
         private static string getTableRow(string[,] table, int row, char cellDivider)
         {
             var rowString = "";
@@ -78,7 +76,6 @@ namespace CodewarsScoreFinder
             rowString += cellDivider;
             return rowString;
         }
-
         private static string getHorizontalBorder(string[,] table, char left, char middle, char middleDivider, char right)
         {
             var border = left.ToString();

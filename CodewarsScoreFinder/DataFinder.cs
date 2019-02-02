@@ -18,6 +18,7 @@ namespace CodewarsScoreFinder
             catch
             {
                 Console.WriteLine("ERROR: Unable to get usernames from file.");
+                Console.WriteLine("File: " + file);
                 Console.ReadLine();
             }
 
@@ -27,11 +28,8 @@ namespace CodewarsScoreFinder
         public void PopulateScores(CodewarsUsersGroup users)
         {
             foreach (var user in users.Users)
-            {
                 populateScore(user);
-            }
         }
-
         private async Task populateScore(CodewarsUser user)
         {
             var client = new WebClient();
