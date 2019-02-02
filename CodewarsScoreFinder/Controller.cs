@@ -31,7 +31,6 @@ namespace CodewarsScoreFinder
                         break;
                     case 2:
                         showKataListsProgress();
-                        Console.ReadLine();
                         break;
                     case 3:
                         return;

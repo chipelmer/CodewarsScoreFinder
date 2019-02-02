@@ -17,12 +17,12 @@ namespace CodewarsScoreFinder
 
         public static RequiredKata GetList2()
         {
-            return new RequiredKata();
+            return new RequiredKata(new DataFinder().GetKataList("RequiredKataList2.csv"));
         }
 
         public static RequiredKata GetList3()
         {
-            return new RequiredKata();
+            return new RequiredKata(new DataFinder().GetKataList("RequiredKataList3.csv"));
         }
     }
 }
