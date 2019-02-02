@@ -10,22 +10,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="RequiredKataList3.csv">
+    <None Update="Kata\RequiredKataList3.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="RequiredKataList2.csv">
+    <None Update="Kata\RequiredKataList2.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="RequiredKataListExample.csv">
+    <None Update="Kata\RequiredKataListExample.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Usernames_Mark4.csv">
+    <None Update="Usernames\Usernames_Mark4.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="RequiredKataList1.csv">
+    <None Update="Kata\RequiredKataList1.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Usernames.csv">
+    <None Update="Usernames\Usernames.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

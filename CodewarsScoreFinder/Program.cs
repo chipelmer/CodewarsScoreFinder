@@ -7,7 +7,7 @@ namespace CodewarsScoreFinder
         public static void Main(string[] args)
         {
             Console.WriteLine("Getting users...");
-            string[] usernames = new DataFinder().GetUsernames("Usernames.csv");
+            string[] usernames = new DataFinder().GetUsernames("Usernames/Usernames.csv");
             if (usernames == null)
                 return;
 
