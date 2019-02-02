@@ -6,14 +6,6 @@ namespace CodewarsScoreFinder
 {
     public static class UX
     {
-        public static void PlayDoneSound()
-        {
-            Console.Beep(440, 200);
-            Console.Beep(440, 200);
-            Console.Beep(660, 200);
-            Console.Beep(660, 200);
-            Console.Beep(880, 500);
-        }
 
         public static void SetColors(ConsoleColor backgroundColor, ConsoleColor foregroundColor)
         {
@@ -59,7 +51,6 @@ namespace CodewarsScoreFinder
             Console.CursorLeft = 0;
             Console.Write(users.PopulatedScoresCount + "/" + users.TotalCount);
 
-            PlayDoneSound();
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write(" ---> DONE" + new string(' ', Math.Max(maxDots, maxBarSpace)));
             Thread.Sleep(1500);
