@@ -14,7 +14,7 @@ namespace CodewarsScoreFinder
 
         private void populateUserScores(CodewarsUsersGroup codewarsUsersGroup)
         {
-            var dataFinder = new DataFinder();
+            DataFinder dataFinder = new DataFinder();
 
             new System.Threading.Thread(() => dataFinder.PopulateScores(codewarsUsersGroup)).Start();
             UX.DisplayLoadingWindow(UX.LoadingOptions.CyclingBar,

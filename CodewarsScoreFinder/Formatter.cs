@@ -5,21 +5,21 @@ namespace CodewarsScoreFinder
     {
         public static string GetTableFromArray(string[,] arrayForTable)
         {
-            var verticalLine = '\u2502';
-            var verticalLineRightCrosspiece = '\u251C';
-            var verticalLineLeftCrosspiece = '\u2524';
-            var horizontalLine = '\u2500';
-            var horizontalLineTopCrosspiece = '\u2534';
-            var horizontalLineBottomCrosspiece = '\u252c';
-            var topLeftCorner = '\u250c';
-            var topRightCorner = '\u2510';
-            var bottomRightCorner = '\u2518';
-            var bottomLeftCorner = '\u2514';
-            var doubleCrosspiece = '\u253c';
+            char verticalLine = '\u2502';
+            char verticalLineRightCrosspiece = '\u251C';
+            char verticalLineLeftCrosspiece = '\u2524';
+            char horizontalLine = '\u2500';
+            char horizontalLineTopCrosspiece = '\u2534';
+            char horizontalLineBottomCrosspiece = '\u252c';
+            char topLeftCorner = '\u250c';
+            char topRightCorner = '\u2510';
+            char bottomRightCorner = '\u2518';
+            char bottomLeftCorner = '\u2514';
+            char doubleCrosspiece = '\u253c';
 
             standardizeLengthOfAllCellsInEachColumn(ref arrayForTable);
 
-            var table = getHorizontalBorder(arrayForTable, topLeftCorner, horizontalLine, horizontalLineBottomCrosspiece, topRightCorner) + "\n";
+            string table = getHorizontalBorder(arrayForTable, topLeftCorner, horizontalLine, horizontalLineBottomCrosspiece, topRightCorner) + "\n";
 
             for (int row = 0; row < arrayForTable.GetLength(0); row++)
             {
@@ -39,7 +39,7 @@ namespace CodewarsScoreFinder
         {
             for (int col = 0; col < table.GetLength(1); col++)
             {
-                var maxWidth = 0;
+                int maxWidth = 0;
                 for (int row = 0; row < table.GetLength(0); row++)
                     if (table[row, col].Length > maxWidth)
                         maxWidth = table[row, col].Length;
@@ -50,7 +50,7 @@ namespace CodewarsScoreFinder
         }
         private static string getTableRow(string[,] table, int row, char cellDivider)
         {
-            var rowString = "";
+            string rowString = "";
             for (int col = 0; col < table.GetLength(1); col++)
                 rowString += cellDivider + table[row, col];
             
@@ -59,7 +59,7 @@ namespace CodewarsScoreFinder
         }
         private static string getHorizontalBorder(string[,] table, char left, char middle, char middleDivider, char right)
         {
-            var border = left.ToString();
+            string border = left.ToString();
             for (int col = 0; col < table.GetLength(1); col++)
                 border += new string(middle, table[0, col].Length) + middleDivider;
             

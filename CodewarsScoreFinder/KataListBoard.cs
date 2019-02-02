@@ -17,7 +17,7 @@ namespace CodewarsScoreFinder
 
         private void populateUserCompletedKataLists(CodewarsUsersGroup codewarsUsersGroup)
         {
-            var dataFinder = new DataFinder();
+            DataFinder dataFinder = new DataFinder();
 
             new System.Threading.Thread(() => dataFinder.PopulateCompletedKata(codewarsUsersGroup)).Start();
             UX.DisplayLoadingWindow(UX.LoadingOptions.CyclingBar,

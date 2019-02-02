@@ -52,12 +52,12 @@ namespace CodewarsScoreFinder
 
         public void PopulateScores(CodewarsUsersGroup users)
         {
-            foreach (var user in users.Users)
+            foreach (CodewarsUser user in users.Users)
                 populateScore(user);
         }
         private async Task populateScore(CodewarsUser user)
         {
-            var client = new WebClient();
+            WebClient client = new WebClient();
             string str = null;
             try
             {
@@ -70,7 +70,7 @@ namespace CodewarsScoreFinder
 
             if (str != null)
             {
-                var response = JObject.Parse(str);
+                JObject response = JObject.Parse(str);
                 int.TryParse(response.GetValue("honor").ToString(), out int score);
                 user.Score = score;
             }
@@ -91,7 +91,7 @@ namespace CodewarsScoreFinder
         }
         private int getCompletedKataPageCount(CodewarsUser user)
         {
-            var client = new WebClient();
+            WebClient client = new WebClient();
             string str = null;
 
             try
@@ -115,7 +115,7 @@ namespace CodewarsScoreFinder
         }
         private async Task populateCompletedKataByPage(CodewarsUser user, int page)
         {
-            var client = new WebClient();
+            WebClient client = new WebClient();
             string str = null;
 
             try
@@ -131,9 +131,9 @@ namespace CodewarsScoreFinder
 
             if (str != null)
             {
-                var response = JObject.Parse(str);
+                JObject response = JObject.Parse(str);
 
-                foreach (var item in (JArray)response.GetValue("data"))
+                foreach (JObject item in (JArray)response.GetValue("data"))
                     user.CompletedKata.Add(
                         new Kata(item["id"].ToString(), item["name"].ToString(), item["slug"].ToString())
                     );

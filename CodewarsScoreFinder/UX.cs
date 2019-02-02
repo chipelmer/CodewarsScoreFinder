@@ -20,14 +20,14 @@ namespace CodewarsScoreFinder
         {
             Console.WriteLine(generalMessage);
 
-            var maxBarSpace = 22;
-            var barLenth = 4;
+            int maxBarSpace = 22;
+            int barLenth = 4;
 
-            var cyclingBar = new CyclingBar(barLenth, maxBarSpace);
-            var sideToSideBar = new SideToSideBar(barLenth, maxBarSpace);
+            CyclingBar cyclingBar = new CyclingBar(barLenth, maxBarSpace);
+            SideToSideBar sideToSideBar = new SideToSideBar(barLenth, maxBarSpace);
 
-            var maxDots = 8;
-            var dotCount = 0;
+            int maxDots = 8;
+            int dotCount = 0;
 
             Console.CursorVisible = false;
             while (progress() < total())
@@ -60,7 +60,7 @@ namespace CodewarsScoreFinder
         {
             Console.Clear();
 
-            for (var i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 if (i % 2 == 0)
                     SetConsoleColors(ConsoleColor.DarkCyan, ConsoleColor.White);
@@ -80,7 +80,7 @@ namespace CodewarsScoreFinder
             public CyclingBar(int greenWidth, int totalWidth, int speedDelayInMilliseconds = 20)
             {
                 this.speedDelayInMilliseconds = speedDelayInMilliseconds;
-                for (var i = 0; i < totalWidth; i++)
+                for (int i = 0; i < totalWidth; i++)
                     values.Add(i < greenWidth);
             }
 
@@ -94,7 +94,7 @@ namespace CodewarsScoreFinder
                 values.Insert(0, values[values.Count - 1]);
                 values.RemoveAt(values.Count - 1);
 
-                foreach (var nextValue in values)
+                foreach (bool nextValue in values)
                 {
                     Console.BackgroundColor = nextValue ? ConsoleColor.Green : default(ConsoleColor);
                     Console.Write(' ');
@@ -110,7 +110,7 @@ namespace CodewarsScoreFinder
             {
                 this.speedDelayInMilliseconds = speedDelayInMilliseconds;
 
-                for (var i = 0; i < totalWidth; i++)
+                for (int i = 0; i < totalWidth; i++)
                     values.Add(i < greenWidth);
             }
 
@@ -137,7 +137,7 @@ namespace CodewarsScoreFinder
                         direction *= -1;
                 }
 
-                foreach (var value in values)
+                foreach (bool value in values)
                 {
                     Console.BackgroundColor = value ? ConsoleColor.Green : default(ConsoleColor);
                     Console.Write(' ');

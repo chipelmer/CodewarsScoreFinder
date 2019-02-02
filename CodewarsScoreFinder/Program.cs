@@ -7,11 +7,11 @@ namespace CodewarsScoreFinder
         public static void Main(string[] args)
         {
             Console.WriteLine("Getting users...");
-            var usernames = new DataFinder().GetUsernames("Usernames.csv");
+            string[] usernames = new DataFinder().GetUsernames("Usernames.csv");
             if (usernames == null)
                 return;
 
-            var codewarsUsersGroup = new CodewarsUsersGroup(usernames);
+            CodewarsUsersGroup codewarsUsersGroup = new CodewarsUsersGroup(usernames);
             if (codewarsUsersGroup == null || codewarsUsersGroup.TotalCount < 1)
             {
                 Console.WriteLine("No users found.");

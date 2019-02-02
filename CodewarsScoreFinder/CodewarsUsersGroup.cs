@@ -35,12 +35,12 @@ namespace CodewarsScoreFinder
             if (users == null)
                 return new List<CodewarsUser>() { new CodewarsUser("N/A") { Name = "N/A", Score = 0 } };
 
-            var userList = new List<CodewarsUser>();
+            List<CodewarsUser> userList = new List<CodewarsUser>();
 
-            foreach (var user in users)
+            foreach (string user in users)
             {
-                var data = user.Split(',');
-                var newUser = new CodewarsUser(data[0]);
+                string[] data = user.Split(',');
+                CodewarsUser newUser = new CodewarsUser(data[0]);
 
                 if (data.Length > 1)
                     newUser.Name = data[1].Trim();
