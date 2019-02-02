@@ -9,7 +9,16 @@
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
-*Usernames.csv
+
+#Exclude all username lists
+*Usernames*.csv
+#Except for usernames example
+!UsernamesExample.csv
+
+#Exclude all kata lists
+*RequiredKataList*.csv
+#Except for kata list example
+!RequiredKataListExample.csv
 
 # Build results
 [Dd]ebug/

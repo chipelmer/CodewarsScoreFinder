@@ -10,7 +10,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Mark4_Usernames.csv">
+    <None Update="RequiredKataListExample.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Usernames_Mark4.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="RequiredKataList1.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Usernames.csv">

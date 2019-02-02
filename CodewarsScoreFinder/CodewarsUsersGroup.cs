@@ -20,6 +20,10 @@ namespace CodewarsScoreFinder
         {
             get => Users.Count(x => x.Score > 0);
         }
+        public int PopulatedKataListCount
+        {
+            get => Users.Count(x => x.CompletedKata.Count > 0);
+        }
 
         public void SortUsersByScore()
         {

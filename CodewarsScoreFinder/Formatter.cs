@@ -1,28 +1,9 @@
+﻿
 namespace CodewarsScoreFinder
 {
     public static class Formatter
     {
-        public static string GetTextFormattedForDisplay(CodewarsUsersGroup users)
-        {
-            users.SortUsersByScore();
-
-            string[,] dataTable = new string[users.TotalCount + 1, 3]; // plus 1 for header, 3 for Username-Name-Score
-
-            dataTable[0, 0] = "Username";
-            dataTable[0, 1] = "Name";
-            dataTable[0, 2] = "Score";
-
-            for (int user = 0; user < users.Users.Count; user++)
-            {
-                dataTable[user + 1, 0] = users.Users[user].Username;
-                dataTable[user + 1, 1] = users.Users[user].Name;
-                dataTable[user + 1, 2] = users.Users[user].Score.ToString(); ;
-            }
-
-            return getTableFromArray(dataTable);
-        }
-
-        private static string getTableFromArray(string[,] arrayForTable)
+        public static string GetTableFromArray(string[,] arrayForTable)
         {
             var verticalLine = '\u2502';
             var verticalLineRightCrosspiece = '\u251C';

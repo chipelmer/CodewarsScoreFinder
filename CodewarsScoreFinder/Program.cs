@@ -19,11 +19,7 @@ namespace CodewarsScoreFinder
                 return;
             }
 
-            new System.Threading.Thread(() => dataFinder.PopulateScores(users)).Start();
-            UX.DisplayLoadingWindow(dataFinder, users, UX.LoadingOptions.CyclingBar);
-
-            UX.DisplayResults(users);
-            UX.DisplayFinalOptions();
+            new Controller(codewarsUsersGroup).DisplayInitialOptions();
         }
     }
 }

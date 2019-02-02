@@ -15,9 +15,10 @@ namespace CodewarsScoreFinder
 
         public enum LoadingOptions { CyclingBar, SideToSideBar, Dots }
 
-        public static void DisplayLoadingWindow(DataFinder dataFinder, CodewarsUsersGroup users, LoadingOptions loadingOption)
+        public static void DisplayLoadingWindow(LoadingOptions loadingOption, Func<int> progress, Func<int> total,
+            string generalMessage)
         {
-            Console.WriteLine("Getting data from Codewars...");
+            Console.WriteLine(generalMessage);
 
             var maxBarSpace = 22;
             var barLenth = 4;
@@ -29,10 +30,10 @@ namespace CodewarsScoreFinder
             var dotCount = 0;
 
             Console.CursorVisible = false;
-            while (users.PopulatedScoresCount < users.TotalCount)
+            while (progress() < total())
             {
                 Console.CursorLeft = 0;
-                Console.Write(users.PopulatedScoresCount + "/" + users.TotalCount);
+                Console.Write(progress() + "/" + total());
                 Console.CursorLeft += 2;
 
                 if (loadingOption == LoadingOptions.CyclingBar)
@@ -48,15 +49,17 @@ namespace CodewarsScoreFinder
             }
 
             Console.CursorLeft = 0;
-            Console.Write(users.PopulatedScoresCount + "/" + users.TotalCount);
+            Console.Write(progress() + "/" + total());
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write(" ---> DONE" + new string(' ', Math.Max(maxDots, maxBarSpace)));
             Thread.Sleep(1500);
         }
 
-        public static void DisplayResults(CodewarsUsersGroup users)
+        public static void ScreenFlashThenDisplay(string text)
         {
+            Console.Clear();
+
             for (var i = 0; i < 10; i++)
             {
                 if (i % 2 == 0)
@@ -64,24 +67,12 @@ namespace CodewarsScoreFinder
                 else
                     SetConsoleColors(ConsoleColor.Black, ConsoleColor.White);
 
-                string results = Formatter.GetTextFormattedForDisplay(users);
-                Console.WindowHeight = Math.Min(Console.LargestWindowHeight, results.Split("\n").Length + 2);
-                Console.WriteLine(results);
+                Console.WriteLine(text);
                 Thread.Sleep(100);
             }
-        }
 
-        public static void DisplayFinalOptions()
-        {
-            Console.CursorVisible = false;
-            Console.WriteLine("(Press R to refresh, any other key to exit)");
-
-            if (Console.ReadKey(true).Key == ConsoleKey.R)
-            {
-                Console.ResetColor();
-                Console.Clear();
-                Program.Main(new string[0]);
-            }
+            Console.Clear();
+            Console.WriteLine(text);
         }
 
         private class CyclingBar
