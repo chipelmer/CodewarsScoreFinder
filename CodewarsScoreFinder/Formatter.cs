@@ -1,7 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace CodewarsScoreFinder
 {
     public static class Formatter
