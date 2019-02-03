@@ -15,6 +15,14 @@ namespace CodewarsScoreFinder
 
         public enum LoadingOptions { CyclingBar, SideToSideBar, Dots }
 
+        public static int SetWindowHeightMinimum(int desiredMinimum)
+        {
+            int resultingHeight = Math.Min(Console.LargestWindowHeight, desiredMinimum);
+            resultingHeight = Math.Max(resultingHeight, Console.WindowHeight);
+            Console.WindowHeight = resultingHeight;
+            return resultingHeight;
+        }
+
         public static void DisplayLoadingWindow(LoadingOptions loadingOption, Func<int> progress, Func<int> total,
             string generalMessage)
         {
@@ -60,7 +68,7 @@ namespace CodewarsScoreFinder
         {
             Console.Clear();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 2; i++)
             {
                 if (i % 2 == 0)
                     SetConsoleColors(ConsoleColor.DarkCyan, ConsoleColor.White);
@@ -68,7 +76,7 @@ namespace CodewarsScoreFinder
                     SetConsoleColors(ConsoleColor.Black, ConsoleColor.White);
 
                 Console.WriteLine(text);
-                Thread.Sleep(100);
+                Thread.Sleep(1000);
             }
 
             Console.Clear();
