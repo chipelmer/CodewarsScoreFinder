@@ -5,51 +5,46 @@ namespace CodewarsScoreFinder
 {
     public class CodewarsUsersGroup
     {
-        public CodewarsUsersGroup(string[] users)
+        public CodewarsUsersGroup(string file)
         {
-            Users = parseUsers(users);
+            Users = new List<CodewarsUser>();
+
+            string[,] data = new DataFinder().ReadCsvFile(file, "Unable to read usernames file.", true);
+
+            if (data == null)
+                return;
+
+            for (int row = 0; row < data.GetLength(0); row++)
+            {
+                CodewarsUser newUser = new CodewarsUser(data[row, 0]);
+                newUser.Name = data[row, 1].Length > 0 ? data[row, 1] : "[No Name]";
+                Users.Add(newUser);
+            }
         }
 
         public List<CodewarsUser> Users { get; private set; }
-        public int TotalCount
-        {
-            get => Users.Count;
-        }
-        public int PopulatedScoresCount
-        {
-            get => Users.Count(x => x.Score > 0);
-        }
-        public int PopulatedKataListCount
-        {
-            get => Users.Count(x => x.CompletedKata.Count > 0);
-        }
+        public int TotalCount { get => Users.Count; }
+        public int PopulatedScoresCount { get => Users.Count(x => x.Score > 0); }
+        public int PopulatedKataListCount { get => Users.Count(x => x.CompletedKata.Count > 0); }
 
-        public void SortUsersByScore()
+        public void SortUsersByScore() => Users = Users.OrderByDescending(x => x.Score).ToList();
+
+        public void PopulateUserScores()
         {
-            Users = Users.OrderByDescending(x => x.Score).ToList();
+            new System.Threading.Thread(() => new DataFinder().PopulateScores(this)).Start();
+            UX.DisplayLoadingWindow(UX.LoadingOptions.CyclingBar,
+                () => PopulatedScoresCount,
+                () => TotalCount,
+                "Getting data from Codewars...");
         }
 
-        private List<CodewarsUser> parseUsers(string[] users)
+        public void PopulateUserCompletedKataLists()
         {
-            if (users == null)
-                return new List<CodewarsUser>() { new CodewarsUser("N/A") { Name = "N/A", Score = 0 } };
-
-            List<CodewarsUser> userList = new List<CodewarsUser>();
-
-            foreach (string user in users)
-            {
-                string[] data = user.Split(',');
-                CodewarsUser newUser = new CodewarsUser(data[0]);
-
-                if (data.Length > 1)
-                    newUser.Name = data[1].Trim();
-                else
-                    newUser.Name = "[No Name]";
-
-                userList.Add(newUser);
-            }
-
-            return userList;
+            new System.Threading.Thread(() => new DataFinder().PopulateCompletedKata(this)).Start();
+            UX.DisplayLoadingWindow(UX.LoadingOptions.CyclingBar,
+                () => PopulatedKataListCount,
+                () => TotalCount,
+                "Getting data from Codewars...");
         }
     }
 }

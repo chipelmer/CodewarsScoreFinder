@@ -8,24 +8,52 @@ namespace CodewarsScoreFinder
 {
     public class DataFinder
     {
-        public string[] GetUsernames(string file)
+        public string[,] ReadCsvFile(string file, string errorMessage, bool replaceNullsWithEmptyStrings)
         {
-            string[] usernames = null;
-            try
+            string[] lines = readFile(file, errorMessage);
+
+            int maxColumnCount = getMaxColumnCount(lines);
+
+            string[,] data = splitArrayLinesByCommas(lines, maxColumnCount);
+
+            if (replaceNullsWithEmptyStrings)
+                this.replaceNullsWithEmptyStrings(data);
+
+            return data;
+        }
+        private int getMaxColumnCount(string[] lines)
+        {
+            int maxColumnCount = 0;
+            foreach (string line in lines)
             {
-                usernames = File.ReadAllLines(file);
-            }
-            catch
-            {
-                Console.WriteLine("ERROR: Unable to get usernames from file.");
-                Console.WriteLine("File: " + file);
-                Console.ReadLine();
+                string[] cells = line.Split(',');
+                if (cells.Length > maxColumnCount)
+                    maxColumnCount = cells.Length;
             }
 
-            return usernames;
+            return maxColumnCount;
+        }
+        private string[,] splitArrayLinesByCommas(string[] lines, int maxColumnCount)
+        {
+            string[,] data = new string[lines.Length, maxColumnCount];
+            for (int row = 0; row < lines.Length; row++)
+            {
+                string[] cells = lines[row].Split(',');
+                for (int col = 0; col < cells.Length; col++)
+                    data[row, col] = cells[col];
+            }
+
+            return data;
+        }
+        private void replaceNullsWithEmptyStrings(string[,] data)
+        {
+            for (int row = 0; row < data.GetLength(0); row++)
+                for (int col = 0; col < data.GetLength(1); col++)
+                    if (data[row, col] == null)
+                        data[row, col] = "";
         }
 
-        public Kata[] GetKataList(string file)
+        private string[] readFile(string file, string errorMessage)
         {
             string[] lines = null;
             try
@@ -34,19 +62,12 @@ namespace CodewarsScoreFinder
             }
             catch
             {
-                Console.WriteLine("ERROR: Unable to get kata list from file.");
+                Console.WriteLine("ERROR: " + errorMessage);
                 Console.WriteLine("File: " + file);
                 Console.ReadLine();
             }
 
-            Kata[] kata = new Kata[lines.Length];
-            for (int i = 0; i < lines.Length; i++)
-            {
-                string[] kataCells = lines[i].Split(',');
-                kata[i] = new Kata(kataCells[0], kataCells[1], kataCells[2], kataCells[3]);
-            }
-
-            return kata;
+            return lines;
         }
 
         public void PopulateScores(CodewarsUsersGroup users)

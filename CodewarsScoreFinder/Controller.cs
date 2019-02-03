@@ -73,6 +73,7 @@ namespace CodewarsScoreFinder
 
         private void showCurrentLeaderboard()
         {
+            CodewarsUsersGroup.PopulateUserScores();
             string leaderboard = new Leaderboard(CodewarsUsersGroup).ToString();
             Console.WindowHeight = Math.Min(Console.LargestWindowHeight, leaderboard.Split("\n").Length + 3);
             UX.ScreenFlashThenDisplay(leaderboard);
@@ -81,6 +82,7 @@ namespace CodewarsScoreFinder
 
         private void showKataListsProgress()
         {
+            CodewarsUsersGroup.PopulateUserCompletedKataLists();
             string kataListBoard = new KataListBoard(CodewarsUsersGroup).ToString();
             Console.WindowHeight = Math.Min(Console.LargestWindowHeight, kataListBoard.Split("\n").Length + 3);
             UX.ScreenFlashThenDisplay(kataListBoard);

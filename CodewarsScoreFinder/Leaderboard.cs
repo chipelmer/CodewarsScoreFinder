@@ -7,20 +7,7 @@ namespace CodewarsScoreFinder
 
         public Leaderboard(CodewarsUsersGroup codewarsUsersGroup)
         {
-            populateUserScores(codewarsUsersGroup);
-
             CodewarsUsersGroup = codewarsUsersGroup;
-        }
-
-        private void populateUserScores(CodewarsUsersGroup codewarsUsersGroup)
-        {
-            DataFinder dataFinder = new DataFinder();
-
-            new System.Threading.Thread(() => dataFinder.PopulateScores(codewarsUsersGroup)).Start();
-            UX.DisplayLoadingWindow(UX.LoadingOptions.CyclingBar,
-                () => codewarsUsersGroup.PopulatedScoresCount,
-                () => codewarsUsersGroup.TotalCount,
-                "Getting data from Codewars...");
         }
 
         public override string ToString()
@@ -40,11 +27,13 @@ namespace CodewarsScoreFinder
             dataTable[0, 1] = "Name";
             dataTable[0, 2] = "Score";
 
-            for (int user = 0; user < CodewarsUsersGroup.Users.Count; user++)
+            int row = 1;
+            foreach (CodewarsUser user in CodewarsUsersGroup.Users)
             {
-                dataTable[user + 1, 0] = CodewarsUsersGroup.Users[user].Username;
-                dataTable[user + 1, 1] = CodewarsUsersGroup.Users[user].Name;
-                dataTable[user + 1, 2] = CodewarsUsersGroup.Users[user].Score.ToString();
+                dataTable[row, 0] = user.Username;
+                dataTable[row, 1] = user.Name;
+                dataTable[row, 2] = user.Score.ToString();
+                row += 1;
             }
 
             return dataTable;
