@@ -37,6 +37,13 @@ namespace CodewarsScoreFinder
                 () => TotalCount,
                 "Getting data from Codewars...");
         }
+        public void RefreshUserScores()
+        {
+            foreach (CodewarsUser user in Users)
+                user.Score = 0;
+
+            PopulateUserScores();
+        }
 
         public void PopulateUserCompletedKataLists()
         {
@@ -45,6 +52,13 @@ namespace CodewarsScoreFinder
                 () => PopulatedKataListCount,
                 () => TotalCount,
                 "Getting data from Codewars...");
+        }
+        public void RefreshUserCompletedKataLists()
+        {
+            foreach (CodewarsUser user in Users)
+                user.CompletedKata.Clear();
+
+            PopulateUserCompletedKataLists();
         }
     }
 }

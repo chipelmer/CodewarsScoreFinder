@@ -13,62 +13,51 @@ namespace CodewarsScoreFinder
 
         public void DisplayInitialOptions()
         {
-            int choice = 0;
-            while (choice == 0)
+            ConsoleKey choice = ConsoleKey.NoName;
+            while (choice == ConsoleKey.NoName)
             {
                 Console.Clear();
-                choice = getUserIntegerResponse(
+                choice = getUserKeyPress(
                     "1) Show Leaderboard\n" +
                     "2) Check Completed Kata\n" +
                     "3) Exit\n" +
-                    "\nWhat would you like to do?", 1, 3);
+                    "\nWhat would you like to do?");
 
                 switch (choice)
                 {
-                    case 1:
+                    case ConsoleKey.D1:
+                    case ConsoleKey.NumPad1:
                         showCurrentLeaderboard();
                         break;
-                    case 2:
+                    case ConsoleKey.D2:
+                    case ConsoleKey.NumPad2:
                         showKataListsProgress();
                         break;
-                    case 3:
+                    case ConsoleKey.D3:
+                    case ConsoleKey.NumPad3:
                         return;
                 }
 
-                choice = 0;
+                choice = ConsoleKey.NoName;
             }
         }
 
-        private void displayGoBackPrompt()
+        private int refreshOrGoBackPrompt()
         {
             Console.CursorVisible = false;
-            Console.WriteLine("(Press any key to go back)");
-            Console.ReadKey(true);
+            Console.WriteLine("(Press R to refresh, any other key to go back)");
+            ConsoleKey key = Console.ReadKey(true).Key;
+
+            if (key == ConsoleKey.R)
+                return 1;
+
+            return 0;
         }
 
-        private int getUserIntegerResponse(string question, int lowerBound, int upperBound)
+        private ConsoleKey getUserKeyPress(string question)
         {
             Console.WriteLine(question);
-            string responseStr = Console.ReadLine();
-
-            int response = lowerBound - 1;
-            int wrongCount = 0;
-            while (int.TryParse(responseStr, out response) == false || response < lowerBound || response > upperBound)
-            {
-                wrongCount += 1;
-                if (wrongCount >= 3)
-                {
-                    wrongCount = 0;
-                    Console.Clear();
-                    Console.WriteLine(question);
-                }
-
-                Console.WriteLine();
-                Console.WriteLine($"Please choose a number from {lowerBound} to {upperBound}.");
-                responseStr = Console.ReadLine();
-            }
-
-            return response;
+            return Console.ReadKey(true).Key;
         }
 
         private void showCurrentLeaderboard()
@@ -77,7 +66,12 @@ namespace CodewarsScoreFinder
             string leaderboard = new Leaderboard(CodewarsUsersGroup).ToString();
             UX.SetWindowHeightMinimum(leaderboard.Split("\n").Length + 3);
             UX.ScreenFlashThenDisplay(leaderboard);
-            displayGoBackPrompt();
+            
+            if (refreshOrGoBackPrompt() == 1)
+            {
+                CodewarsUsersGroup.RefreshUserScores();
+                showCurrentLeaderboard();
+            }
         }
 
         private void showKataListsProgress()
@@ -86,7 +80,12 @@ namespace CodewarsScoreFinder
             string kataListBoard = new KataListBoard(CodewarsUsersGroup).ToString();
             UX.SetWindowHeightMinimum(kataListBoard.Split("\n").Length + 3);
             UX.ScreenFlashThenDisplay(kataListBoard);
-            displayGoBackPrompt();
+
+            if (refreshOrGoBackPrompt() == 1)
+            {
+                CodewarsUsersGroup.RefreshUserCompletedKataLists();
+                showKataListsProgress();
+            }
         }
     }
 }
