@@ -14,5 +14,6 @@ namespace CodewarsScoreFinder
         public int Score { get; set; }
 
         public List<Kata> CompletedKata { get; set; } = new List<Kata>();
+        public int TotalCompletedKata { get; set; } = -1;
     }
 }

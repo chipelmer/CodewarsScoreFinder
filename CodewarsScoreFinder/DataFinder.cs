@@ -99,24 +99,49 @@ namespace CodewarsScoreFinder
         public void PopulateCompletedKata(CodewarsUsersGroup codewarsUsersGroup)
         {
             foreach (CodewarsUser user in codewarsUsersGroup.Users)
+                setCompletedKataCountAsync(user);
+            foreach (CodewarsUser user in codewarsUsersGroup.Users)
                 populateCompletedKata(user);
         }
         private async Task populateCompletedKata(CodewarsUser user)
         {
-            int totalPages = getCompletedKataPageCount(user);
-            int currentPage = 0;
+            int totalPages = await getCompletedKataPageCountAsync(user);
 
-            for (int i = 0; i < totalPages; i++)
-                await populateCompletedKataByPage(user, currentPage);
+            for (int currentPage = 0; currentPage < totalPages; currentPage++)
+                await populateCompletedKataByPageAsync(user, currentPage);
         }
-        private int getCompletedKataPageCount(CodewarsUser user)
+        private async Task setCompletedKataCountAsync(CodewarsUser user)
         {
             WebClient client = new WebClient();
             string str = null;
 
             try
             {
-                str = client.DownloadString("https://www.codewars.com/api/v1/users/" + user.Username +
+                str = await client.DownloadStringTaskAsync("https://www.codewars.com/api/v1/users/" + user.Username +
+                    "/code-challenges/completed?page=1000");
+            }
+            catch
+            {
+                Console.WriteLine("Error getting a user's data from Codewars: " + user.Username);
+                return;
+            }
+
+            if (str != null)
+            {
+                int.TryParse(JObject.Parse(str)["totalItems"].ToString(), out int totalCompletedKata);
+                user.TotalCompletedKata = totalCompletedKata;
+            }
+
+            return;
+        }
+        private async Task<int> getCompletedKataPageCountAsync(CodewarsUser user)
+        {
+            WebClient client = new WebClient();
+            string str = null;
+
+            try
+            {
+                str = await client.DownloadStringTaskAsync("https://www.codewars.com/api/v1/users/" + user.Username +
                     "/code-challenges/completed?page=1000");
             }
             catch
@@ -133,7 +158,7 @@ namespace CodewarsScoreFinder
 
             return 0;
         }
-        private async Task populateCompletedKataByPage(CodewarsUser user, int page)
+        private async Task populateCompletedKataByPageAsync(CodewarsUser user, int page)
         {
             WebClient client = new WebClient();
             string str = null;
