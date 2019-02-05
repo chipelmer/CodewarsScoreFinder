@@ -62,28 +62,28 @@ namespace CodewarsScoreFinder
 
         private void showCurrentLeaderboard()
         {
-            CodewarsUsersGroup.PopulateUserScores();
+            Console.Clear();
+            CodewarsUsersGroup.RefreshUserScores();
             string leaderboard = new Leaderboard(CodewarsUsersGroup).ToString();
             UX.SetWindowHeightMinimum(leaderboard.Split("\n").Length + 3);
             UX.ScreenFlashThenDisplay(leaderboard);
             
             if (refreshOrGoBackPrompt() == 1)
             {
-                CodewarsUsersGroup.RefreshUserScores();
                 showCurrentLeaderboard();
             }
         }
 
         private void showKataListsProgress()
         {
-            CodewarsUsersGroup.PopulateUserCompletedKataLists();
+            Console.Clear();
+            CodewarsUsersGroup.RefreshUserCompletedKataLists();
             string kataListBoard = new KataListBoard(CodewarsUsersGroup).ToString();
             UX.SetWindowHeightMinimum(kataListBoard.Split("\n").Length + 3);
             UX.ScreenFlashThenDisplay(kataListBoard);
 
             if (refreshOrGoBackPrompt() == 1)
             {
-                CodewarsUsersGroup.RefreshUserCompletedKataLists();
                 showKataListsProgress();
             }
         }
