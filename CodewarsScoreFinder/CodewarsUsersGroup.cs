@@ -25,7 +25,6 @@ namespace CodewarsScoreFinder
         public List<CodewarsUser> Users { get; private set; }
         public int TotalCount { get => Users.Count; }
         public int PopulatedScoresCount { get => Users.Count(x => x.Score > 0); }
-        public int PopulatedKataListCount { get => Users.Count(x => (x.TotalCompletedKata > -1 && x.CompletedKata.Count >= x.TotalCompletedKata)); }
 
         public void SortUsersByScore() => Users = Users.OrderByDescending(x => x.Score).ToList();
 
@@ -43,22 +42,6 @@ namespace CodewarsScoreFinder
                 user.Score = 0;
 
             PopulateUserScores();
-        }
-
-        public void PopulateUserCompletedKataLists()
-        {
-            new System.Threading.Thread(() => new DataFinder().PopulateCompletedKata(this)).Start();
-            UX.DisplayLoadingWindow(UX.LoadingOptions.CyclingBar,
-                () => PopulatedKataListCount,
-                () => TotalCount,
-                "Getting data from Codewars...");
-        }
-        public void RefreshUserCompletedKataLists()
-        {
-            foreach (CodewarsUser user in Users)
-                user.CompletedKata.Clear();
-
-            PopulateUserCompletedKataLists();
         }
     }
 }

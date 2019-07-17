@@ -19,8 +19,7 @@ namespace CodewarsScoreFinder
                 Console.Clear();
                 choice = getUserKeyPress(
                     "1) Show Leaderboard\n" +
-                    "2) Check Completed Kata\n" +
-                    "3) Exit\n" +
+                    "2) Exit\n" +
                     "\nWhat would you like to do?");
 
                 switch (choice)
@@ -31,10 +30,7 @@ namespace CodewarsScoreFinder
                         break;
                     case ConsoleKey.D2:
                     case ConsoleKey.NumPad2:
-                        showKataListsProgress();
-                        break;
-                    case ConsoleKey.D3:
-                    case ConsoleKey.NumPad3:
+                        Console.Clear();
                         return;
                 }
 
@@ -71,20 +67,6 @@ namespace CodewarsScoreFinder
             if (refreshOrGoBackPrompt() == 1)
             {
                 showCurrentLeaderboard();
-            }
-        }
-
-        private void showKataListsProgress()
-        {
-            Console.Clear();
-            CodewarsUsersGroup.RefreshUserCompletedKataLists();
-            string kataListBoard = new KataListBoard(CodewarsUsersGroup).ToString();
-            UX.SetWindowHeightMinimum(kataListBoard.Split("\n").Length + 3);
-            UX.ScreenFlashThenDisplay(kataListBoard);
-
-            if (refreshOrGoBackPrompt() == 1)
-            {
-                showKataListsProgress();
             }
         }
     }
