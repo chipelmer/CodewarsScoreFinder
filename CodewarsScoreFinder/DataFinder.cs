@@ -86,6 +86,8 @@ namespace CodewarsScoreFinder
             catch
             {
                 Console.WriteLine("Error getting a user's data from Codewars: " + user.Username);
+                user.Score = -1;
+                user.TotalCompletedKata = -1;
             }
 
             if (str != null)

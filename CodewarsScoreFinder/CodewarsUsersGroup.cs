@@ -24,7 +24,7 @@ namespace CodewarsScoreFinder
 
         public List<CodewarsUser> Users { get; private set; }
         public int TotalCount { get => Users.Count; }
-        public int PopulatedScoresCount { get => Users.Count(x => x.Score > 0); }
+        public int PopulatedScoresCount { get => Users.Count(x => x.Score != 0); }
 
         public void SortUsersByScore() => Users = Users.OrderByDescending(x => x.Score).ToList();
 
