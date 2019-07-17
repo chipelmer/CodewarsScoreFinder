@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace CodewarsScoreFinder
 {
@@ -61,7 +62,7 @@ namespace CodewarsScoreFinder
             Console.Clear();
             CodewarsUsersGroup.RefreshUserDataFromCodewars();
             string leaderboard = new Leaderboard(CodewarsUsersGroup).ToString();
-            UX.SetWindowSizeMinimum(leaderboard.Split("\n").Length + 3, 75);
+            UX.SetWindowSizeMinimum(leaderboard.Split("\n").Length + 3, leaderboard.Split("\n").Max(x => x.Length) + 3);
             UX.ScreenFlashThenDisplay(leaderboard);
             
             if (refreshOrGoBackPrompt() == 1)
