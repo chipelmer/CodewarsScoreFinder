@@ -15,12 +15,15 @@ namespace CodewarsScoreFinder
 
         public enum LoadingOptions { CyclingBar, SideToSideBar, Dots }
 
-        public static int SetWindowHeightMinimum(int desiredMinimum)
+        public static void SetWindowSizeMinimum(int desiredHeight, int desiredWidth)
         {
-            int resultingHeight = Math.Min(Console.LargestWindowHeight, desiredMinimum);
+            int resultingHeight = Math.Min(Console.LargestWindowHeight, desiredHeight);
             resultingHeight = Math.Max(resultingHeight, Console.WindowHeight);
             Console.WindowHeight = resultingHeight;
-            return resultingHeight;
+
+            int resultingWidth = Math.Min(Console.LargestWindowWidth, desiredWidth);
+            resultingWidth = Math.Max(resultingWidth, Console.WindowWidth);
+            Console.WindowWidth = resultingWidth;
         }
 
         public static void DisplayLoadingWindow(LoadingOptions loadingOption, Func<int> progress, Func<int> total,

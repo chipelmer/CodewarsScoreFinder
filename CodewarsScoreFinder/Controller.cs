@@ -65,7 +65,7 @@ namespace CodewarsScoreFinder
             Console.Clear();
             CodewarsUsersGroup.RefreshUserScores();
             string leaderboard = new Leaderboard(CodewarsUsersGroup).ToString();
-            UX.SetWindowHeightMinimum(leaderboard.Split("\n").Length + 3);
+            UX.SetWindowSizeMinimum(leaderboard.Split("\n").Length + 3, 75);
             UX.ScreenFlashThenDisplay(leaderboard);
             
             if (refreshOrGoBackPrompt() == 1)
