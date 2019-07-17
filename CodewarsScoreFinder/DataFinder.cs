@@ -78,10 +78,10 @@ namespace CodewarsScoreFinder
         private async Task populateScore(CodewarsUser user)
         {
             WebClient client = new WebClient();
-            string str = null;
+            string apiResponse = null;
             try
             {
-                str = await client.DownloadStringTaskAsync("https://www.codewars.com/api/v1/users/" + user.Username);
+                apiResponse = await client.DownloadStringTaskAsync("https://www.codewars.com/api/v1/users/" + user.Username);
             }
             catch
             {
@@ -90,11 +90,13 @@ namespace CodewarsScoreFinder
                 user.TotalCompletedKata = -1;
             }
 
-            if (str != null)
+            if (apiResponse != null)
             {
-                JObject response = JObject.Parse(str);
+                JObject response = JObject.Parse(apiResponse);
                 int.TryParse(response.GetValue("honor").ToString(), out int score);
+                int.TryParse(response.SelectToken("codeChallenges.totalCompleted").ToString(), out int totalCompletedKataCount);
                 user.Score = score;
+                user.TotalCompletedKata = totalCompletedKataCount;
             }
         }
     }
