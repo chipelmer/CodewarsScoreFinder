@@ -28,20 +28,20 @@ namespace CodewarsScoreFinder
 
         public void SortUsersByScore() => Users = Users.OrderByDescending(x => x.Score).ToList();
 
-        public void PopulateUserScores()
+        public void PopulateUserDataFromCodewars()
         {
-            new System.Threading.Thread(() => new DataFinder().PopulateScores(this)).Start();
+            new System.Threading.Thread(() => new DataFinder().PopulateUserDataFromCodewars(this)).Start();
             UX.DisplayLoadingWindow(UX.LoadingOptions.CyclingBar,
                 () => PopulatedScoresCount,
                 () => TotalCount,
                 "Getting data from Codewars...");
         }
-        public void RefreshUserScores()
+        public void RefreshUserDataFromCodewars()
         {
             foreach (CodewarsUser user in Users)
                 user.Score = 0;
 
-            PopulateUserScores();
+            PopulateUserDataFromCodewars();
         }
     }
 }

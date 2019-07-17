@@ -70,7 +70,7 @@ namespace CodewarsScoreFinder
             return lines;
         }
 
-        public void PopulateScores(CodewarsUsersGroup users)
+        public void PopulateUserDataFromCodewars(CodewarsUsersGroup users)
         {
             foreach (CodewarsUser user in users.Users)
                 populateScore(user);

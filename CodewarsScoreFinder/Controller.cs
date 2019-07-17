@@ -59,7 +59,7 @@ namespace CodewarsScoreFinder
         private void showCurrentLeaderboard()
         {
             Console.Clear();
-            CodewarsUsersGroup.RefreshUserScores();
+            CodewarsUsersGroup.RefreshUserDataFromCodewars();
             string leaderboard = new Leaderboard(CodewarsUsersGroup).ToString();
             UX.SetWindowSizeMinimum(leaderboard.Split("\n").Length + 3, 75);
             UX.ScreenFlashThenDisplay(leaderboard);
