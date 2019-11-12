@@ -12,6 +12,9 @@ namespace CodewarsScoreFinder
         {
             string[] lines = readFile(file, errorMessage);
 
+            if (lines?.Length > 0 != true)
+                return null;
+
             int maxColumnCount = getMaxColumnCount(lines);
 
             string[,] data = splitArrayLinesByCommas(lines, maxColumnCount);
