@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace CodewarsScoreFinder
 {
@@ -17,6 +18,9 @@ namespace CodewarsScoreFinder
 
         public static void SetWindowSizeMinimum(int desiredHeight, int desiredWidth)
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) == false)
+                return;
+
             int resultingHeight = Math.Min(Console.LargestWindowHeight, desiredHeight);
             resultingHeight = Math.Max(resultingHeight, Console.WindowHeight);
             Console.WindowHeight = resultingHeight;
